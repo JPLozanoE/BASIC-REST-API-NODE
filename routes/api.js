@@ -10,12 +10,34 @@ const Ninja = require('../models/ninja');
     //Get a list of ninjas from the db
     router.get('/ninjas',(req,res,next)=>{
         // res.send({type:'GET'});
-        Ninja.find().
-        then(
-            ninjas=>{
-                res.send(ninjas);
-            }
-        );
+        // Ninja.find({}).
+        // then(
+        //     ninjas=>{
+        //         res.send(ninjas);
+        //     }
+        // );
+        Ninja.aggregate()
+        .near({
+          near: {
+            type: "Point",
+            coordinates: [parseFloat(req.query.lng), parseFloat(req.query.lat)]
+          },
+          maxDistance: 100000, // 300 KM
+          spherical: true,
+          distanceField: "distance"
+        })
+        .then(ninjas => {
+          console.log(ninjas);
+          if (ninjas) {
+            if (ninjas.length === 0)
+              return res.send({
+                message:
+                  "maxDistance is too small, or your query params {lng, lat} are incorrect (too big or too small)."
+              });
+            return res.send(ninjas);
+          }
+        })
+        .catch(next);
     });
 
     //Add a new ninja to the db
