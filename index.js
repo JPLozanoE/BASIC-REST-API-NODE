@@ -14,7 +14,7 @@ const app = express();
     
 // const MongoClient = require('mongodb').MongoClient;
 const uri = url;
-mongoose.connect(uri,{useUnifiedTopology: true,useNewUrlParser: true});
+mongoose.connect(uri,{useCreateIndex: true,useUnifiedTopology: true,useNewUrlParser: true});
 
 // mongoose.Promise = global.Promise;
 // const client = new MongoClient(uri, { useNewUrlParser: true });
