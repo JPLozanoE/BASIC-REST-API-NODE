@@ -6,12 +6,10 @@ const url = process.env.MONGOLAB_URI;
 // const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 // set up express app
+
 const app = express();
 
-// connect to mongodb
-// mongoose.connect();
-
-    
+app.use(express.static('./public'));
 // const MongoClient = require('mongodb').MongoClient;
 const uri = url;
 mongoose.connect(uri,{useCreateIndex: true,useUnifiedTopology: true,useNewUrlParser: true});
@@ -23,8 +21,6 @@ mongoose.connect(uri,{useCreateIndex: true,useUnifiedTopology: true,useNewUrlPar
 //   // perform actions on the collection object
 //   client.close();
 // });
-
-
 
 app.use(express.json());
 //Initialize routes
